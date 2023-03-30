@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 public class SimpleBeanFactory implements BeanFactory {
-    private List<BeanDefinition> beanDefinitionList;
+    private List<BeanDefinition> beanDefinitions;
     private List<String> beanNames;
     private Map<String, Object> singletons;
     public SimpleBeanFactory() {
-        beanDefinitionList = new ArrayList<>();
+        beanDefinitions = new ArrayList<>();
         beanNames = new ArrayList<>();
         singletons = new HashMap<>();
     }
@@ -24,7 +24,7 @@ public class SimpleBeanFactory implements BeanFactory {
                 throw new BeanException();
             } else {
                 //获取bean定义
-                BeanDefinition beanDefinition = beanDefinitionList.get(i);
+                BeanDefinition beanDefinition = beanDefinitions.get(i);
                 try {
                     singleton = Class.forName(beanDefinition.getClassName()).newInstance();
                 } catch (ClassNotFoundException e) {
@@ -43,7 +43,7 @@ public class SimpleBeanFactory implements BeanFactory {
 
     @Override
     public void registerBeanDefinition(BeanDefinition beanDefinition) {
-        this.beanDefinitionList.add(beanDefinition);
+        this.beanDefinitions.add(beanDefinition);
         this.beanNames.add(beanDefinition.getId());
     }
 }

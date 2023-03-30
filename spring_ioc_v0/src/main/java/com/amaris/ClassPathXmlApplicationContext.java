@@ -17,15 +17,20 @@ public class ClassPathXmlApplicationContext {
     private Map<String, Object> singletons = new HashMap<>();
     //构造器获取外部配置，解析出Bean的定义，形成内存映像
     public ClassPathXmlApplicationContext(String fileName) {
+        //提供一个 readXml() 方法，通过传入的文件路径，也就是 XML 文件的全路径名，来获取 XML 内的信息
         this.readXml(fileName);
+        //根据读取到的信息实例化 Bean
         this.instanceBeans();
     }
+    //配置在 XML 内的 Bean 信息都是文本信息，需要解析之后变成内存结构才能注入到容器
     private void readXml(String fileName) {
+        //dom4j包内提供的SAXReader对象
         SAXReader saxReader = new SAXReader();
         try {
             URL xmlPath =
                     this.getClass().getClassLoader().getResource(fileName);
             Document document = saxReader.read(xmlPath);
+            //获取根元素，也就是 XML 里最外层的标签
             Element rootElement = document.getRootElement();
             //对配置文件中的每一个<bean>，进行处理
             for (Element element : (List<Element>) rootElement.elements()) {
